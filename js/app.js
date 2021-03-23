@@ -3,7 +3,8 @@ let myProps = {
     keys: document.querySelectorAll("li"),
     action: null,
     digit: null,
-    operaciones: document.querySelector("#operaciones")
+    operaciones: document.querySelector("#operaciones"),
+    maxQuantitySymb: 0
 }
 
 
@@ -13,7 +14,7 @@ let myMethod = {
 
         for (let i = 0; i < myProps.keys.length; i++) {
             myProps.keys[i].addEventListener("click", myMethod.keyPress)
-           
+
         }
 
     },
@@ -22,25 +23,35 @@ let myMethod = {
         myProps.action = event.target.getAttribute("class");
         myProps.digit = event.target.innerHTML;
         myMethod.calculator(myProps.action, myProps.digit);
-       
+
 
     },
     calculator: function (action, digit) {
         switch (action) {
-
+            //NUMBER
             case "number":
+                myProps.maxQuantitySymb = 0;
                 if (myProps.operaciones.innerHTML == 0) {
                     myProps.operaciones.innerHTML = digit;
-                    
+
                 } else {
                     myProps.operaciones.innerHTML += digit;
-                    
+
                 }
 
                 break;
-
+            //SYMBOL
             case "symbol":
-                console.log("symbol");
+                myProps.maxQuantitySymb++
+                if (myProps.maxQuantitySymb == 1) {
+                    if (myProps.operaciones.innerHTML == 0) {
+                        myProps.operaciones.innerHTML = 0
+                    } else {
+                        myProps.operaciones.innerHTML += digit;
+                    }
+
+                }
+
                 break;
 
             case "decimal":
@@ -51,6 +62,9 @@ let myMethod = {
                 console.log("equal");
                 break;
         }
+    },
+    borrarCalculadora: _ => {
+        myProps.operaciones.innerHTML = 0;
     }
 }
 
